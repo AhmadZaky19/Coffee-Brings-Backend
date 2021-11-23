@@ -3,7 +3,7 @@ const express = require("express");
 const Router = express.Router();
 
 const productController = require("./productController");
-const middlewareAuth = require("../../middleware/auth");
+// const middlewareAuth = require("../../middleware/auth");
 const middlewareRedis = require("../../middleware/redis");
 const middlewareUpload = require("../../middleware/uploadProduct");
 
@@ -21,7 +21,18 @@ Router.post(
   "/",
   middlewareRedis.clearProductRedis,
   middlewareUpload,
-  productController.postMovie
+  productController.postProduct
+);
+Router.patch(
+  "/:id",
+  middlewareRedis.clearProductRedis,
+  middlewareUpload,
+  productController.updateProduct
+);
+Router.delete(
+  "/:id",
+  productController.deleteProduct,
+  middlewareRedis.clearProductRedis
 );
 
 module.exports = Router;

@@ -97,7 +97,7 @@ module.exports = {
       );
     }
   },
-  postMovie: async (req, res) => {
+  postProduct: async (req, res) => {
     try {
       const { name, size, price, description, category } = req.body;
       const setData = {
@@ -111,6 +111,84 @@ module.exports = {
       };
       const result = await productModel.postProduct(setData);
       return helperWrapper.response(res, 200, "Success post product", result);
+    } catch (error) {
+      return helperWrapper.response(
+        res,
+        400,
+        `Bad request (${error.message})`,
+        null
+      );
+    }
+  },
+  updateProduct: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const checkId = await productModel.getProductById(id);
+      if (checkId.length < 1) {
+        return helperWrapper.response(
+          res,
+          404,
+          `Product by id ${id} not found !`,
+          null
+        );
+      }
+      const { name, size, price, description, category } = req.body;
+      const setData = {
+        name,
+        image: req.file ? req.file.filename : null,
+        size,
+        price,
+        description,
+        category,
+        updatedAt: new Date(Date.now()),
+      };
+      Object.keys(setData).forEach((data) => {
+        if (!setData[data]) {
+          delete setData[data];
+        }
+      });
+      if (req.file && checkId[0].image) {
+        deleteFile(`public/uploads/product/${checkId[0].image}`);
+      }
+      const result = await productModel.updateProduct(setData, id);
+      return helperWrapper.response(
+        res,
+        200,
+        "Success update product data",
+        result
+      );
+    } catch (error) {
+      return helperWrapper.response(
+        res,
+        400,
+        `Bad request (${error.message})`,
+        null
+      );
+    }
+  },
+  deleteProduct: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const checkId = await productModel.getProductById(id);
+      if (checkId.length < 1) {
+        return helperWrapper.response(
+          res,
+          404,
+          `Product by id ${id} not found !`,
+          null
+        );
+      }
+      if (checkId[0].image) {
+        deleteFile(`public/uploads/product/${checkId[0].image}`);
+        console.log("delete");
+      }
+      const result = await productModel.deleteProduct(id);
+      return helperWrapper.response(
+        res,
+        200,
+        `Success delete product data by id ${id}`,
+        result
+      );
     } catch (error) {
       return helperWrapper.response(
         res,

@@ -57,4 +57,32 @@ module.exports = {
         }
       });
     }),
+  updateProduct: (data, id) =>
+    new Promise((resolve, reject) => {
+      connection.query(
+        "UPDATE product SET ? WHERE id = ?",
+        [data, id],
+        (error) => {
+          if (!error) {
+            const newResult = {
+              id,
+              ...data,
+            };
+            resolve(newResult);
+          } else {
+            reject(new Error(`SQL : ${error.sqlMessage}`));
+          }
+        }
+      );
+    }),
+  deleteProduct: (id) =>
+    new Promise((resolve, reject) => {
+      connection.query("DELETE FROM product WHERE id = ?", id, (error) => {
+        if (!error) {
+          resolve(id);
+        } else {
+          reject(new Error(`SQL : ${error.sqlMessage}`));
+        }
+      });
+    }),
 };
