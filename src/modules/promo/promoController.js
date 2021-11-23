@@ -69,6 +69,11 @@ module.exports = {
       if (result.length < 1) {
         return helperResponse.response(res, 404, `Data not found !`, null);
       }
+      redis.setex(
+        `getPromo:${JSON.stringify(req.query)}`,
+        3600,
+        JSON.stringify({ result, pageInfo })
+      );
 
       return helperResponse.response(
         res,
@@ -98,6 +103,8 @@ module.exports = {
           null
         );
       }
+      redis.setex(`getPromo:${id}`, 3600, JSON.stringify(result));
+
       return helperResponse.response(res, 200, "Success get by id", result);
     } catch (error) {
       return helperResponse.response(
