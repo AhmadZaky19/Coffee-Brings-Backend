@@ -108,4 +108,22 @@ module.exports = {
       );
     }
   },
+
+  logout: async (req, res) => {
+    try {
+      let token = req.headers.authorization;
+      token = token.split(" ")[1];
+
+      redis.setex(`accessToken:${token}`, 3600 * 24, token);
+
+      return helperWrapper.response(res, 200, "Success logout", null);
+    } catch (err) {
+      return helperWrapper.response(
+        res,
+        400,
+        `Bad Request (${err.message})`,
+        null
+      );
+    }
+  },
 };
