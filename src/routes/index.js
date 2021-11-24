@@ -5,7 +5,6 @@ const userRoutes = require("../modules/user/userRoutes");
 const authRoutes = require("../modules/auth/authRoutes");
 const promoRouter = require("../modules/promo/promoRoutes");
 const productRoutes = require("../modules/product/productRoutes");
-const authRoutes = require("../modules/auth/authRoutes");
 
 Router.use("/auth", authRoutes);
 Router.use("/user", userRoutes);
