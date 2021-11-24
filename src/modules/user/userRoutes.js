@@ -7,4 +7,5 @@ const userController = require("./userController");
 
 Router.get("/", middlewareAuth.authentication, userController.hello);
 
+
 module.exports = Router;
