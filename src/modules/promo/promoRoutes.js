@@ -2,7 +2,7 @@ const express = require("express");
 const Router = express.Router();
 // const middlewareAuth = require("../../middleware/auth");
 const middlewareUpload = require("../../middleware/uploadPromo");
-const middlewareRedis = require("../../middleware/Redis");
+const middlewareRedis = require("../../middleware/redis");
 //========================================================
 const promoController = require("./promoController");
 

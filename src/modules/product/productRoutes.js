@@ -31,8 +31,8 @@ Router.patch(
 );
 Router.delete(
   "/:id",
-  productController.deleteProduct,
-  middlewareRedis.clearProductRedis
+  middlewareRedis.clearProductRedis,
+  productController.deleteProduct
 );
 
 module.exports = Router;
