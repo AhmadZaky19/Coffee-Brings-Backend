@@ -1,5 +1,5 @@
 const multer = require("multer");
-const helperWrapper = require("../helper/wrapper");
+const helperWrapper = require("../helpers/wrapper/index");
 
 const storage = multer.diskStorage({
   destination(req, file, cb) {

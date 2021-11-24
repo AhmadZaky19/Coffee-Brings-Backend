@@ -2,9 +2,9 @@ const express = require("express");
 
 const Router = express.Router();
 
-const middlewareAuth = require("../../middleware/auth");
+// const middlewareAuth = require("../../middleware/auth");
 const userController = require("./userController");
 
-Router.get("/", middlewareAuth.authentication, userController.hello);
+Router.get("/", userController.hello);
 
 module.exports = Router;
