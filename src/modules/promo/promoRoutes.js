@@ -1,6 +1,6 @@
 const express = require("express");
 const Router = express.Router();
-const middlewareAuth = require("../../middleware/auth");
+// const middlewareAuth = require("../../middleware/auth");
 const middlewareUpload = require("../../middleware/uploadPromo");
 const middlewareRedis = require("../../middleware/Redis");
 //========================================================
@@ -8,30 +8,34 @@ const promoController = require("./promoController");
 
 Router.post(
   "/",
-  middlewareAuth.isAdmin,
+  // middlewareAuth.isAdmin,
   middlewareUpload,
   middlewareRedis.clearPromoRedis,
   promoController.postPromo
 );
 Router.get(
   "/",
-  middlewareAuth.isAdmin,
+  // middlewareAuth.isAdmin,
   middlewareRedis.getPromoRedis,
   promoController.getAllPromo
 );
 Router.get(
   "/:id",
-  middlewareAuth.isAdmin,
+  // middlewareAuth.isAdmin,
   middlewareRedis.getPromoByIdRedis,
   promoController.getPromoById
 );
 Router.patch(
   "/:id",
-  middlewareAuth.isAdmin,
+  // middlewareAuth.isAdmin,
   middlewareUpload,
   middlewareRedis.clearPromoRedis,
   promoController.updatePromo
 );
-Router.delete("/:id", middlewareAuth.isAdmin, promoController.deletePromo);
+Router.delete(
+  "/:id",
+  // middlewareAuth.isAdmin,
+  promoController.deletePromo
+);
 
 module.exports = Router;
