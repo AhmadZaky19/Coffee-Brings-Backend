@@ -29,4 +29,18 @@ module.exports = {
           }
         })
     }),
+  checkUser: (email) =>
+    new Promise((resolve, reject) => {
+      const cek = connection.query(
+        `SELECT * FROM user WHERE email = ?`,
+        email,
+        (error, result) => {
+          if (!error) {
+            resolve(result);
+          } else {
+            reject(new Error(`SQL : ${Error.sqlMessage}`));
+          }
+        }
+      );
+    }),
 }
