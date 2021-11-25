@@ -1,7 +1,5 @@
 # Coffee-Brings API
 
-online movie ticket booking API
-
 <!-- NAVIGATION -->
 <ol>
     <li>
@@ -17,14 +15,12 @@ online movie ticket booking API
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
-    <li><a href="#contact">Contact</a></li>
+    <li><a href="#contributors">Contributors</a></li>
   </ol>
 
 <!-- ABOUT THE PROJECT -->
 
 ## About The Project
-
-This application is a web-based online movie booking application for the backend / API.
 
 ### Built With
 
@@ -52,7 +48,7 @@ Before installing, you must be install [nodejs and npm.](https://nodejs.org)
 1. Clone this repo
 
 ```sh
-git clone https://github.com/AhmadZaky19/backend-coffebrings
+git clone https://github.com/AhmadZaky19/backend-coffebrings.git
 ```
 
 2. Install NPM package
@@ -101,7 +97,7 @@ MIDTRANS_CLIENT_KEY=yourmidtransclientkey -->
 npm run dev
 ```
 
-<!-- CONTACT -->
+<!-- Contributors -->
 
 ## Contributors
 
