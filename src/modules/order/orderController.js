@@ -1,6 +1,7 @@
 const { v4: uuid } = require("uuid");
 const helperWrapper = require("../../helpers/wrapper");
 const orderModel = require("./orderModel");
+const productModel = require("../product/productModel");
 
 module.exports = {
   postOrder: async (req, res) => {
@@ -28,18 +29,27 @@ module.exports = {
         paymentStatus,
       };
 
+      // CHECK PRODUCT ID
+      orderItem.map(async (item) => {
+        const product = await productModel.getProductById(item.productId);
+        if (product.length < 1) {
+          return helperWrapper.response(
+            res,
+            404,
+            `Product by id ${item.productId} no found`,
+            null
+          );
+        }
+      });
+
       // POST ORDER
       await orderModel.postOrder(setData);
-
-      const setData2 = {
-        id: uuid(),
-        orderId: setData.id,
-      };
 
       // POST ORDER ITEM
       orderItem.map(async (item) => {
         await orderModel.postOrderItem({
-          ...setData2,
+          orderId: setData.id,
+          id: uuid(),
           productId: item.productId,
           qty: item.qty,
           total: item.total,
@@ -85,10 +95,28 @@ module.exports = {
     }
   },
 
+  getOrderId: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const result = await orderModel.getOrderId(id);
+      if (result.length < 1) {
+        return helperWrapper.response(res, 404, ` Id ${id} Not Found!`, null);
+      }
+      return helperWrapper.response(res, 200, "Success Get By User Id", result);
+    } catch (error) {
+      return helperWrapper.response(
+        res,
+        400,
+        `Bad Request (${error.message})`,
+        null
+      );
+    }
+  },
+
   deleteOrder: async (req, res) => {
     try {
       const { id } = req.params;
-      const checkId = await orderModel.getOrderByUserId(id);
+      const checkId = await orderModel.getOrderId(id);
       if (checkId.length < 1) {
         return helperWrapper.response(
           res,
@@ -98,7 +126,7 @@ module.exports = {
         );
       }
       const result = await orderModel.deleteOrder(id);
-      return helperWrapper.response(res, 200, "Success delete data", result);
+      return helperWrapper.response(res, 200, "Success delete data", req.param);
     } catch (error) {
       return helperWrapper.response(
         res,

@@ -4,7 +4,7 @@ const connection = require("../../config/mysql");
 module.exports = {
   postOrder: (data) =>
     new Promise((resolve, reject) => {
-      connection.query("INSERT INTO order SET ?", data, (err, result) => {
+      connection.query("INSERT INTO `order` SET ?", data, (err, result) => {
         if (!err) {
           const newResult = {
             id: result.insertId,
@@ -19,7 +19,7 @@ module.exports = {
 
   postOrderItem: (data) =>
     new Promise((resolve, reject) => {
-      connection.query("INSERT INTO orderItem SET ?", data, (err, result) => {
+      connection.query("INSERT INTO `orderItem` SET ?", data, (err, result) => {
         if (!err) {
           resolve(result);
         } else {
@@ -31,7 +31,8 @@ module.exports = {
   getOrderByUserId: (idUser) =>
     new Promise((resolve, reject) => {
       connection.query(
-        `SELECT * FROM order WHERE idUser = '${idUser}'`,
+        "SELECT * FROM `order` WHERE idUser = ?",
+        idUser,
         (error, result) => {
           if (!error) {
             resolve(result);
@@ -41,15 +42,30 @@ module.exports = {
         }
       );
     }),
-
+  getOrderId: (id) =>
+    new Promise((resolve, reject) => {
+      connection.query(
+        "SELECT * FROM `order` WHERE id = ?",
+        id,
+        (error, result) => {
+          if (!error) {
+            resolve(result);
+          } else new Error(`SQL:${error.sqlMessage}`);
+        }
+      );
+    }),
   deleteOrder: (id) =>
     new Promise((resolve, reject) => {
-      connection.query("DELETE FROM order WHERE id=?", id, (error) => {
-        if (!error) {
-          resolve(id);
-        } else {
-          reject(new Error(`SQL : ${error.sqlMessage}`));
+      connection.query(
+        "DELETE FROM `order` WHERE id=?",
+        id,
+        (error, result) => {
+          if (!error) {
+            resolve(id);
+          } else {
+            reject(new Error(`SQL : ${error.sqlMessage}`));
+          }
         }
-      });
+      );
     }),
 };
