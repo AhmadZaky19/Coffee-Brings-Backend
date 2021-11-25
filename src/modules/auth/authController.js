@@ -1,7 +1,7 @@
 require("dotenv").config();
 const authModel = require("./authModel");
 const helperWrapper = require("../../helpers/wrapper");
-const sendMail = require("../../helpers/mail");
+const sendMailForgot = require("../../helpers/mail");
 const bcrypt = require("bcrypt");
 const { v4: uuidv4 } = require("uuid");
 
@@ -151,7 +151,7 @@ module.exports = {
         },
       };
 
-      await sendMail(setSendEmail);
+      await sendMailForgot(setSendEmail);
 
       return helperWrapper.response(
         res,
