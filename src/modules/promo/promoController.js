@@ -2,6 +2,7 @@ const helperResponse = require("../../helpers/wrapper/index");
 const promoModel = require("./promoModel");
 const deleteFile = require("../../helpers/deleteFile");
 const { v4: uuid } = require("uuid");
+const redis = require("../../config/redis");
 
 module.exports = {
   postPromo: async (req, res) => {
