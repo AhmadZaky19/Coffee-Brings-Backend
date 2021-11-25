@@ -18,7 +18,7 @@ module.exports = {
   getOrderByUserId: (idUser) =>
     new Promise((resolve, reject) => {
       connection.query(
-        `SELECT * FROM order WHERE idUser = '${idUser}'`, (error, result) => {
+        'SELECT * FROM `order` WHERE idUser = ?', idUser, (error, result) => {
           if (!error) {
             resolve(result);
           } else {
@@ -27,14 +27,25 @@ module.exports = {
         }
       )
     }),
+  getOrderId: (id) =>
+    new Promise((resolve, reject) => {
+      connection.query(
+        "SELECT * FROM `order` WHERE id = ?", id, (error, result) => {
+          if (!error) {
+            resolve(result)
+          } else (new Error(`SQL:${error.sqlMessage}`))
+        }
+      )
+    }),
   deleteOrder: (id) =>
     new Promise((resolve, reject) => {
-      connection.query("DELETE FROM order WHERE id=?", id, (error) => {
-        if (!error) {
-          resolve(id)
-        } else {
-          reject(new Error(`SQL : ${error.sqlMessage}`))
-        }
-      })
+      connection.query(
+        "DELETE FROM `order` WHERE id=?", id, (error, result) => {
+          if (!error) {
+            resolve(id)
+          } else {
+            reject(new Error(`SQL : ${error.sqlMessage}`))
+          }
+        })
     })
 }
