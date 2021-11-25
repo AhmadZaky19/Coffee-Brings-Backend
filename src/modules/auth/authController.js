@@ -130,13 +130,15 @@ module.exports = {
       const keysChangePassword = generateKey();
 
       // CHECK USER BY EMAIL
-
+      const checkUser = await authModel.getDataConditions({ email });
+      if (checkUser.length < 1) {
+        return helper.response(res, 400, "Email / Account not registed", null);
+      }
       // ======
 
       await authModel.updateDataUser(
         { keysChangePassword, updatedAt: new Date() },
-        // checkUser[0].id
-        123
+        checkUser[0].id
       );
 
       const setSendEmail = {
@@ -144,10 +146,8 @@ module.exports = {
         subject: `Reset Password !`,
         template: "forgot-password",
         data: {
-          // name: checkUser[0].firstName,
-          firstName: "walid",
-          // id: result.id,
-          buttonUrl: `${linkRedirect}/${keysChangePassword}`,
+          name: checkUser[0].firstName,
+          buttonUrl: `${linkRedirect}/auth/forgot-password/${keysChangePassword}`,
         },
       };
 
@@ -171,28 +171,33 @@ module.exports = {
 
   resetPassword: async (req, res) => {
     try {
-      const { id, keysChangePassword, newPassword, confirmPassword } = req.body;
+      const { keysChangePassword, newPassword, confirmPassword } = req.body;
 
-      // const checkUser = await authModel.getDataConditions({ keysChangePassword });
-      // if (checkUser.length < 1) {
-      //   return helper.response(
-      //     res,
-      //     400,
-      //     'Your keys is not valid, please repeat step forgot password',
-      //     null
-      //   );
-      // }
+      const checkUser = await authModel.getDataConditions({
+        keysChangePassword,
+      });
+      if (checkUser.length < 1) {
+        return helper.response(
+          res,
+          400,
+          "Your keys is not valid, please repeat step forgot password",
+          null
+        );
+      }
 
-      // const { id, minuteDiff } = checkUser[0];
-      // if (minuteDiff < -5) {
-      //   await authModel.updateDataUser({ keysChangePassword: null, updatedAt: new Date() }, id);
-      //   return helper.response(
-      //     res,
-      //     400,
-      //     'Your keys is expired, please repeat step forgot password',
-      //     null
-      //   );
-      // }
+      const { id, minuteDiff } = checkUser[0];
+      if (minuteDiff < -5) {
+        await authModel.updateDataUser(
+          { keysChangePassword: null, updatedAt: new Date() },
+          id
+        );
+        return helper.response(
+          res,
+          400,
+          "Your keys is expired, please repeat step forgot password",
+          null
+        );
+      }
 
       if (newPassword !== confirmPassword) {
         return helperWrapper.response(res, 400, "Password not same", null);

@@ -29,7 +29,7 @@ const sendMail = (data) =>
     );
 
     const mailOptions = {
-      from: `"Coffee Brings" <mailtes260@gmail.com>`,
+      from: `"Coffee-Brings App" <mailtes260@gmail.com>`,
       to: data.to,
       subject: data.subject,
       template: data.template,
