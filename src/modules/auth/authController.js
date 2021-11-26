@@ -12,7 +12,7 @@ const generateKey = () => {
 const bcryptjs = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const sendMail = require("../../helpers/email");
-// const redis = require("../../config/redis");
+const redis = require("../../config/redis");
 
 module.exports = {
   register: async (req, res) => {
