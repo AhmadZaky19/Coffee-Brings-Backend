@@ -66,7 +66,7 @@ module.exports = {
 
       filter = filter || "monthly";
 
-      if (filter === "dialy") {
+      if (filter === "daily") {
         const result = await dashboardModel.getDashboard(filter);
         const newResult = sortListDataDay(listDay, result);
         return helperWrapper.response(

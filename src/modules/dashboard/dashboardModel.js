@@ -4,7 +4,7 @@ module.exports = {
   getDashboard: (data) =>
     new Promise((resolve, reject) => {
       connection.query(
-        data === "dialy"
+        data === "daily"
           ? "SELECT DAYNAME(createdAt) AS day, SUM(total) AS total from `order` WHERE YEARWEEK(createdAt) = YEARWEEK(NOW()) GROUP BY DATE(createdAt)"
           : data === "weekly"
           ? "SELECT MONTHNAME(createdAt) AS month, SUM(total) AS total from `order` WHERE YEAR(createdAt) = YEAR(NOW()) GROUP BY MONTH(createdAt)"
