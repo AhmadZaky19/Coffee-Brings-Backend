@@ -1,4 +1,4 @@
-// const bcrypt = require("bcrypt");
+const bcryptjs = require("bcrypt");
 const helperWrapper = require("../../helpers/wrapper");
 const deleteFile = require("../../helpers/deleteFile");
 const userModel = require("./userModel");
@@ -90,20 +90,20 @@ module.exports = {
   },
   updateImage: async (req, res) => {
     try {
-      const { id } = req.params;
+      const { id } = req.decodeToken;
 
       const user = await userModel.getUserById(id);
       if (user.length < 1) {
         return helperWrapper.response(
           res,
           404,
-          `Get data user by id ${id} not found`,
+          `User by id ${id} not found`,
           null
         );
       }
 
-      if (req.file.filename && checkId[0].image) {
-        deleteFile(`../../../public/uploads/promo/${checkId[0].image}`);
+      if (user[0].image) {
+        deleteFile(`public/uploads/user/${user[0].image}`);
       }
 
       const setData = {
@@ -122,7 +122,7 @@ module.exports = {
       return helperWrapper.response(
         res,
         400,
-        `Bad request (${error.message})`,
+        `Bad request : ${error.message}`,
         null
       );
     }
@@ -130,7 +130,7 @@ module.exports = {
 
   updatePassword: async (req, res) => {
     try {
-      const { id } = req.params;
+      const { id } = req.decodeToken;
       const { newPassword, confirmPassword } = req.body;
 
       const user = await userModel.getUserById(id);
@@ -138,7 +138,7 @@ module.exports = {
         return helperWrapper.response(
           res,
           404,
-          `Get data user by id ${id} not found`,
+          `User by id ${id} not found`,
           null
         );
       }
@@ -152,8 +152,8 @@ module.exports = {
         );
       }
 
-      const salt = await bcrypt.genSalt(10);
-      const passwordHash = await bcrypt.hash(newPassword, salt);
+      const salt = await bcryptjs.genSalt(10);
+      const passwordHash = await bcryptjs.hash(newPassword, salt);
 
       const setData = { password: passwordHash };
 
@@ -166,7 +166,35 @@ module.exports = {
       return helperWrapper.response(
         res,
         400,
-        `Bad request (${error.message})`,
+        `Bad request : ${error.message}`,
+        null
+      );
+    }
+  },
+  deleteImage: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const checkId = await userModel.getUserById(id);
+      if (checkId.length < 1) {
+        return helperWrapper.response(
+          res,
+          404,
+          `Data by id ${id} not found !`,
+          null
+        );
+      }
+      await userModel.updateProfile({ image: null, updatedAt: new Date() }, id);
+
+      if (checkId[0].image) {
+        deleteFile(`../../../public/uploads/promo/${checkId[0].image}`);
+      }
+
+      return helperWrapper.response(res, 200, "Success delete image", { id });
+    } catch (error) {
+      return helperWrapper.response(
+        res,
+        400,
+        `Bad Request${error.message ? " (" + error.message + ")" : ""}`,
         null
       );
     }
