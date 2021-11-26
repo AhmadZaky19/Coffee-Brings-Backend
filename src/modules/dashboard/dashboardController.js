@@ -69,19 +69,39 @@ module.exports = {
       if (filter === "dialy") {
         const result = await dashboardModel.getDashboard(filter);
         const newResult = sortListDataDay(listDay, result);
-        return helperWrapper.response(res, 200, `ok`, newResult);
+        return helperWrapper.response(
+          res,
+          200,
+          "Success get data dashboard",
+          newResult
+        );
       } else if (filter === "weekly") {
         const result = await dashboardModel.getDashboard(filter);
         const newResult = sortListDataMonth(listMonth, result);
-        return helperWrapper.response(res, 200, `ok`, newResult);
+        return helperWrapper.response(
+          res,
+          200,
+          "Success get data dashboard",
+          newResult
+        );
       } else if (filter === "monthly") {
         const result = await dashboardModel.getDashboard(filter);
         const newResult = sortListDataMonth(listMonth, result);
-        return helperWrapper.response(res, 200, `ok`, newResult);
+        return helperWrapper.response(
+          res,
+          200,
+          "Success get data dashboard",
+          newResult
+        );
       } else {
         const result = await dashboardModel.getDashboard(filter);
         const newResult = sortListDataMonth(listMonth, result);
-        return helperWrapper.response(res, 200, `ok`, newResult);
+        return helperWrapper.response(
+          res,
+          200,
+          "Success get data dashboard",
+          newResult
+        );
       }
     } catch (error) {
       return helperWrapper.response(
