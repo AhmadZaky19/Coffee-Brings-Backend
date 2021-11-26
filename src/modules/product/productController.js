@@ -14,11 +14,12 @@ module.exports = {
       search = search || "";
       sort = sort || "name";
       order = order || "asc";
-      const offset = page * limit - limit;
+      let offset = page * limit - limit;
       const totalData = await productModel.getCountProduct(category, search);
       const totalPage = Math.ceil(totalData / limit);
       if (page > totalPage) {
-        return helperWrapper.response(res, 400, "Page not found", null);
+        offset = 0;
+        page = 1;
       }
       const pageInfo = {
         page,
@@ -42,7 +43,13 @@ module.exports = {
         return data;
       });
       if (newResult.length < 1) {
-        return helperWrapper.response(res, 404, "Data not found", null);
+        return helperWrapper.response(
+          res,
+          200,
+          "Product not found",
+          newResult,
+          pageInfo
+        );
       }
 
       redis.setex(
