@@ -79,9 +79,9 @@ module.exports = {
       if (result.length < 1) {
         return helperWrapper.response(
           res,
-          404,
-          `User Id ${idUser} Not Found!`,
-          null
+          200,
+          `Data by User Id ${idUser} Not Found!`,
+          []
         );
       }
       return helperWrapper.response(res, 200, "Success Get By User Id", result);
