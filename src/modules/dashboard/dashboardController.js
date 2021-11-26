@@ -1,0 +1,95 @@
+const dashboardModel = require("./dashboardModel");
+const helperWrapper = require("../../helpers/wrapper");
+
+const listDay = [
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+  "Sunday",
+];
+const listMonth = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "august",
+  "september",
+  "October",
+  "November",
+  "December",
+];
+
+const sortListDataDay = (listDay, data) => {
+  const result = [];
+  for (const i of listDay) {
+    let res = 0;
+    for (const j of data) {
+      if (i === j.day) {
+        res += 1;
+        result.push({ day: j.day, total: j.total });
+      }
+    }
+    if (res === 0) {
+      result.push({ day: i, total: 0 });
+    }
+  }
+  return result;
+};
+
+const sortListDataMonth = (listMonth, data) => {
+  const result = [];
+  for (const i of listMonth) {
+    let res = 0;
+    for (const j of data) {
+      if (i === j.month) {
+        res += 1;
+        result.push({ month: j.month, total: j.total });
+      }
+    }
+    if (res === 0) {
+      result.push({ month: i, total: 0 });
+    }
+  }
+  return result;
+};
+
+module.exports = {
+  getDashboard: async (req, res) => {
+    try {
+      let { filter } = req.query;
+
+      filter = filter || "monthly";
+
+      if (filter === "dialy") {
+        const result = await dashboardModel.getDashboard(filter);
+        const newResult = sortListDataDay(listDay, result);
+        return helperWrapper.response(res, 200, `ok`, newResult);
+      } else if (filter === "weekly") {
+        const result = await dashboardModel.getDashboard(filter);
+        const newResult = sortListDataMonth(listMonth, result);
+        return helperWrapper.response(res, 200, `ok`, newResult);
+      } else if (filter === "monthly") {
+        const result = await dashboardModel.getDashboard(filter);
+        const newResult = sortListDataMonth(listMonth, result);
+        return helperWrapper.response(res, 200, `ok`, newResult);
+      } else {
+        const result = await dashboardModel.getDashboard(filter);
+        const newResult = sortListDataMonth(listMonth, result);
+        return helperWrapper.response(res, 200, `ok`, newResult);
+      }
+    } catch (error) {
+      return helperWrapper.response(
+        res,
+        400,
+        `Bad Request ${error.message}`,
+        null
+      );
+    }
+  },
+};
