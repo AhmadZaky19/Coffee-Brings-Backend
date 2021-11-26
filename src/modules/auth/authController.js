@@ -144,9 +144,9 @@ module.exports = {
       const setSendEmail = {
         to: email,
         subject: `Reset Password !`,
-        template: "forgot-password",
+        template: "email-forgot-password",
         data: {
-          name: checkUser[0].firstName,
+          name: checkUser[0].firstName || "my friend",
           buttonUrl: `${linkRedirect}/auth/forgot-password/${keysChangePassword}`,
         },
       };
