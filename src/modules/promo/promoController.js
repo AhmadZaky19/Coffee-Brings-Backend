@@ -102,9 +102,9 @@ module.exports = {
       if (result.length < 1) {
         return helperResponse.response(
           res,
-          404,
+          200,
           `Data by id ${id} not found!`,
-          null
+          result
         );
       }
       redis.setex(`getPromo:${id}`, 3600, JSON.stringify(result));
