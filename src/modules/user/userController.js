@@ -13,7 +13,7 @@ module.exports = {
         return helperWrapper.response(
           res,
           404,
-          `Get data user by id ${id} not found`,
+          `User by id ${id} not found`,
           null
         );
       }
@@ -130,7 +130,7 @@ module.exports = {
 
   updatePassword: async (req, res) => {
     try {
-      const { id } = req.decodeToken;
+      const { id } = req.params;
       const { newPassword, confirmPassword } = req.body;
 
       const user = await userModel.getUserById(id);

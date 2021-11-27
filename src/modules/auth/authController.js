@@ -4,11 +4,13 @@ const helperWrapper = require("../../helpers/wrapper");
 const sendMailForgot = require("../../helpers/mail");
 const bcrypt = require("bcrypt");
 const { v4: uuidv4 } = require("uuid");
+const userModel = require("../user/userModel");
 
 const generateKey = () => {
   const res = Math.floor(100000 + Math.random() * 900000);
   return res;
 };
+
 const bcryptjs = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const sendMail = require("../../helpers/email");
@@ -70,6 +72,16 @@ module.exports = {
   verifyUser: async (req, res) => {
     try {
       const { id } = req.params;
+
+      const result = await userModel.getUserById(id);
+      if (result.length < 1) {
+        return helperWrapper.response(
+          res,
+          404,
+          `User by id ${id} not found`,
+          null
+        );
+      }
 
       await authModel.verifyUser("active", id);
       return helperWrapper.response(res, 200, "Email verification success");
@@ -196,6 +208,14 @@ module.exports = {
           400,
           "Your keys is expired, please repeat step forgot password",
           null
+        );
+      }
+
+      if (newPassword.length < 6) {
+        return helperWrapper.response(
+          res,
+          400,
+          "Password must be more than 6 character"
         );
       }
 

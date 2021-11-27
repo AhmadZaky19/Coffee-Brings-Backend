@@ -70,7 +70,7 @@ module.exports = {
       const result = await promoModel.getAllPromo(limit, offset, search);
 
       if (result.length < 1) {
-        return helperResponse.response(res, 404, `Data not found !`, null);
+        return helperResponse.response(res, 200, `Data not found !`, []);
       }
       redis.setex(
         `getPromo:${JSON.stringify(req.query)}`,
