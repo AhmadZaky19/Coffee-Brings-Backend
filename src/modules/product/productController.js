@@ -81,9 +81,9 @@ module.exports = {
       if (result.length < 1) {
         return helperWrapper.response(
           res,
-          404,
+          200,
           `Product by id ${id} not found !`,
-          null
+          result
         );
       }
 
