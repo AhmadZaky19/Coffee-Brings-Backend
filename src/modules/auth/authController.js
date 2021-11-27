@@ -50,6 +50,7 @@ module.exports = {
         data: {
           id: result.id,
           email: result.email,
+          link: process.env.URL_BACKEND,
         },
       };
 
