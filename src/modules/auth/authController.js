@@ -144,7 +144,12 @@ module.exports = {
       // CHECK USER BY EMAIL
       const checkUser = await authModel.getDataConditions({ email });
       if (checkUser.length < 1) {
-        return helper.response(res, 400, "Email / Account not registed", null);
+        return helperWrapper.response(
+          res,
+          400,
+          "Email / Account not registed",
+          null
+        );
       }
       // ======
 
@@ -189,7 +194,7 @@ module.exports = {
         keysChangePassword,
       });
       if (checkUser.length < 1) {
-        return helper.response(
+        return helperWrapper.response(
           res,
           400,
           "Your keys is not valid, please repeat step forgot password",
@@ -203,7 +208,7 @@ module.exports = {
           { keysChangePassword: null, updatedAt: new Date() },
           id
         );
-        return helper.response(
+        return helperWrapper.response(
           res,
           400,
           "Your keys is expired, please repeat step forgot password",
