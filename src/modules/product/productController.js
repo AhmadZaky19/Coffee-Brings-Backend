@@ -116,6 +116,20 @@ module.exports = {
         description,
         category,
       };
+      if (
+        name.length < 1 ||
+        size.length < 1 ||
+        price.length < 1 ||
+        description.length < 1 ||
+        category.length < 1
+      ) {
+        return helperWrapper.response(
+          res,
+          400,
+          "All input must be filled",
+          null
+        );
+      }
       const result = await productModel.postProduct(setData);
       return helperWrapper.response(res, 200, "Success post product", result);
     } catch (error) {
