@@ -9,7 +9,7 @@ const promoController = require("./promoController");
 Router.post(
   "/",
   middlewareAuth.authentication,
-  middlewareAuth.isAdmin,
+  // middlewareAuth.isAdmin,
   middlewareUpload,
   middlewareRedis.clearPromoRedis,
   promoController.postPromo

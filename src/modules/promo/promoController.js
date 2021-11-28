@@ -30,6 +30,23 @@ module.exports = {
         dateEnd,
         image: req.file ? req.file.filename : null,
       };
+      if (
+        name.length < 1 ||
+        discount.length < 1 ||
+        minTotalPrice.length < 1 ||
+        maxDiscount.length < 1 ||
+        promoCode.length < 1 ||
+        description.length < 1 ||
+        dateStart.length < 1 ||
+        dateEnd.length < 1
+      ) {
+        return helperResponse.response(
+          res,
+          400,
+          "All input must be filled",
+          null
+        );
+      }
       const result = await promoModel.postPromo(setData);
       //   console.log(result);
       return helperResponse.response(res, 200, "Success Create Data", result);
@@ -69,7 +86,7 @@ module.exports = {
       const result = await promoModel.getAllPromo(limit, offset, search);
 
       if (result.length < 1) {
-        return helperResponse.response(res, 200, `Data not found !`, []);
+        return helperResponse.response(res, 404, `Data not found !`, null);
       }
       redis.setex(
         `getPromo:${JSON.stringify(req.query)}`,
@@ -142,6 +159,7 @@ module.exports = {
         dateEnd,
       } = req.body;
       const setData = {
+        id: uuid(),
         name,
         discount,
         minTotalPrice,
@@ -159,8 +177,7 @@ module.exports = {
           delete setData[data];
         }
       }
-
-      if (req.file && checkId[0].image) {
+      if (req.file.filename && checkId[0].image) {
         deleteFile(`../../../public/uploads/promo/${checkId[0].image}`);
       }
 
