@@ -20,7 +20,6 @@ module.exports = {
       console.log(req.body);
 
       const setData = {
-        id: uuid(),
         name,
         discount,
         minTotalPrice,
