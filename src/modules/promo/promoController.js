@@ -69,7 +69,7 @@ module.exports = {
       const result = await promoModel.getAllPromo(limit, offset, search);
 
       if (result.length < 1) {
-        return helperResponse.response(res, 404, `Data not found !`, null);
+        return helperResponse.response(res, 200, `Data not found !`, []);
       }
       redis.setex(
         `getPromo:${JSON.stringify(req.query)}`,
@@ -142,7 +142,6 @@ module.exports = {
         dateEnd,
       } = req.body;
       const setData = {
-        id: uuid(),
         name,
         discount,
         minTotalPrice,
@@ -160,7 +159,8 @@ module.exports = {
           delete setData[data];
         }
       }
-      if (req.file.filename && checkId[0].image) {
+
+      if (req.file && checkId[0].image) {
         deleteFile(`../../../public/uploads/promo/${checkId[0].image}`);
       }
 

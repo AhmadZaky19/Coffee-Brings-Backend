@@ -29,5 +29,4 @@ Router.delete(
   userController.deleteImage
 );
 
-
 module.exports = Router;

@@ -12,7 +12,7 @@ module.exports = {
           res,
           200,
           "Success get data product",
-          newResult.result,
+          newResult.newResult,
           newResult.pageInfo
         );
       }
