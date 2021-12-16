@@ -5,10 +5,10 @@ module.exports = {
     new Promise((resolve, reject) => {
       connection.query(
         data === "daily"
-          ? "SELECT DAYNAME(createdAt) AS day, SUM(total) AS total from `order` WHERE YEARWEEK(createdAt) = YEARWEEK(NOW()) GROUP BY DATE(createdAt)"
+          ? "SELECT MAX(createdAt) AS day, SUM(total) AS total from `order` WHERE YEARWEEK(createdAt) = YEARWEEK(NOW()) GROUP BY DATE(createdAt)"
           : data === "weekly"
-          ? "SELECT MONTHNAME(createdAt) AS month, SUM(total) AS total from `order` WHERE YEAR(createdAt) = YEAR(NOW()) GROUP BY MONTH(createdAt)"
-          : "SELECT MONTHNAME(createdAt) AS month, SUM(total) AS total from `order` WHERE YEAR(createdAt) = YEAR(NOW()) GROUP BY MONTH(createdAt)",
+          ? "SELECT MAX(createdAt) AS month, SUM(total) AS total from `order` WHERE YEAR(createdAt) = YEAR(NOW()) GROUP BY MONTH(createdAt)"
+          : "SELECT MAX(createdAt) AS month, SUM(total) AS total from `order` WHERE YEAR(createdAt) = YEAR(NOW()) GROUP BY MONTH(createdAt)",
         (err, result) => {
           if (!err) {
             resolve(result);

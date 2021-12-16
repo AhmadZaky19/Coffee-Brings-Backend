@@ -14,7 +14,6 @@ module.exports = {
       );
     });
   },
-
   updateDataUser: (data, id) => {
     return new Promise((resolve, reject) => {
       connection.query(

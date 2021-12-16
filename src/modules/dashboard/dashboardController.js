@@ -1,5 +1,6 @@
 const dashboardModel = require("./dashboardModel");
 const helperWrapper = require("../../helpers/wrapper");
+const moment = require("moment");
 
 const listDay = [
   "Monday",
@@ -68,7 +69,14 @@ module.exports = {
 
       if (filter === "daily") {
         const result = await dashboardModel.getDashboard(filter);
-        const newResult = sortListDataDay(listDay, result);
+        let newResult = result.map((item) => {
+          return {
+            total: Number(item.total),
+            day: moment(item.day).format("dddd"),
+          };
+        });
+
+        newResult = sortListDataDay(listDay, newResult);
         return helperWrapper.response(
           res,
           200,
@@ -77,7 +85,13 @@ module.exports = {
         );
       } else if (filter === "weekly") {
         const result = await dashboardModel.getDashboard(filter);
-        const newResult = sortListDataMonth(listMonth, result);
+        let newResult = result.map((item) => {
+          return {
+            total: Number(item.total),
+            month: moment(item.month).format("MMMM"),
+          };
+        });
+        newResult = sortListDataMonth(listMonth, newResult);
         return helperWrapper.response(
           res,
           200,
@@ -86,7 +100,14 @@ module.exports = {
         );
       } else if (filter === "monthly") {
         const result = await dashboardModel.getDashboard(filter);
-        const newResult = sortListDataMonth(listMonth, result);
+        let newResult = result.map((item) => {
+          return {
+            total: Number(item.total),
+            month: moment(item.month).format("MMMM"),
+          };
+        });
+
+        newResult = sortListDataMonth(listMonth, newResult);
         return helperWrapper.response(
           res,
           200,
