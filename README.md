@@ -22,6 +22,8 @@
 
 ## About The Project
 
+coffee brings adalah aplikasi FnB berbasis online yang bertujuan untuk mempermudah siapa saja dalam pemesanan makanan atau minuman. Dari sisi Backend, aplikasi ini dibangun dengan menggunakan nodejs dan mysql sebagai database nya, dan framewoek nextjs menjadi komponen pembangun di sisi frontend. pada aplikasi ini user dapat memesan beberapa makanan dalam satu pesanan dengan fitur add to cart dengan menggabungkan seluruh total harga menjadi satu kali transaksi pembayaran.
+
 ### Built With
 
 some technology used in this project.
@@ -101,9 +103,11 @@ npm run dev
 
 ## Contributors
 
-- Ahmad Zaky [https://github.com/AhmadZaky19](https://github.com/AhmadZaky19)
-- Walid Nurudin [https://github.com/Walidnurudin](https://github.com/Walidnurudin)
-- Fachri Maulana [https://github.com/mrfachri19](https://github.com/mrfachri19)
-- Noviana [https://github.com/Novianaa](https://github.com/Novianaa)
+- (Fullstack) Walid Nurudin [https://github.com/Walidnurudin](https://github.com/Walidnurudin)
+- (Frontend) Fajri Putra [https://github.com/fajriputra](https://github.com/fajriputra)
+- (Frontend) Fikri Nadzif [https://github.com/LepakBoy](https://github.com/LepakBoy)
+- (Backend) Fachri Maulana [https://github.com/mrfachri19](https://github.com/mrfachri19)
+- (Backend) Ahmad Zaky [https://github.com/AhmadZaky19](https://github.com/AhmadZaky19)
+- (Backend) Noviana [https://github.com/Novianaa](https://github.com/Novianaa)
 
 Project Link: [https://github.com/AhmadZaky19/backend-coffebrings](https://github.com/AhmadZaky19/backend-coffebrings)
