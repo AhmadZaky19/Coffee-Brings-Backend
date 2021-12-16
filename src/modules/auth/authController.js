@@ -22,7 +22,12 @@ module.exports = {
       const { email, password, phoneNumber } = req.body;
       const checkUser = await authModel.getUserByEmail(email);
       if (email.length < 1 || password.length < 1 || phoneNumber.length < 1) {
-        return helperWrapper.response(res, 400, "field is required", null);
+        return helperWrapper.response(
+          res,
+          400,
+          "All input must be filled",
+          null
+        );
       }
       if (checkUser.length > 0) {
         return helperWrapper.response(res, 409, "Email already used", null);
